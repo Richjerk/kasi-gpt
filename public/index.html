@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Township Business Directory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #fdb913;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #333;
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        #chatbot {
+            margin-top: 20px;
+        }
+
+        #chatbot-box {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        #chat-input {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #chat-output {
+            margin-top: 10px;
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #businesses .business {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        #business-form input, #business-form textarea, #business-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Menu -->
+    <header>
+        <h1>Township Small Business Directory</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#businesses">Our Businesses</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#list-business">List Your Business</a></li>
+                <li><button onclick="openChatbot()">Search Business</button></li> <!-- Search Business button -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section id="home">
+            <h2>Welcome to the Township Business Directory</h2>
+            <p>Your local hub for finding trusted township businesses, products, and services!</p>
+        </section>
+
+        <!-- Businesses Section -->
+        <section id="businesses">
+            <h2>Our Listed Businesses</h2>
+            <p>Explore businesses in your area!</p>
+
+            <!-- Sample Business -->
+            <div class="business">
+                <h3>Joe's Auto Repair</h3>
+                <p><strong>Description:</strong> Expert auto repair services for all car brands, offering fast and reliable services.</p>
+                <p><strong>Phone:</strong> +27 79 123 4567</p>
+                <p><strong>Email:</strong> joe.auto@gmail.com</p>
+                <p><strong>Address:</strong> 9007 Ext.6B Orange Farm, Gauteng, South Africa</p>
+            </div>
+
+            <div class="business">
+                <h3>Sipho's Fashion Boutique</h3>
+                <p><strong>Description:</strong> Trendy fashion items for men and women, featuring local designs.</p>
+                <p><strong>Phone:</strong> +27 63 987 6543</p>
+                <p><strong>Email:</strong> sipho.fashion@gmail.com</p>
+                <p><strong>Address:</strong> 45 Ext.1 Orange Farm, Gauteng, South Africa</p>
+            </div>
+
+            <!-- A chatbot that helps users find businesses -->
+            <div id="chatbot">
+                <h3>Ask Our Chatbot</h3>
+                <p>Get recommendations for local businesses!</p>
+                <div id="chatbot-box">
+                    <input type="text" placeholder="Type your question here..." id="chat-input">
+                    <button onclick="sendMessage()">Ask</button>
+                    <div id="chat-output"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Listing Form -->
+        <section id="list-business">
+            <h2>List Your Business</h2>
+            <form id="business-form" enctype="multipart/form-data" action="/submit-business" method="POST">
+                <label for="business-name">Business Name:</label>
+                <input type="text" id="business-name" name="businessName" required>
+
+                <label for="business-description">Business Description:</label>
+                <textarea id="business-description" name="businessDescription" required></textarea>
+
+                <label for="business-image">Upload Products/Services Image:</label>
+                <input type="file" id="business-image" name="businessImage" accept="image/*" required>
+
+                <label for="business-email">Business Email:</label>
+                <input type="email" id="business-email" name="businessEmail" required>
+
+                <label for="business-phone">Business Phone:</label>
+                <input type="tel" id="business-phone" name="businessPhone" required>
+
+                <label for="business-address">Business Address:</label>
+                <input type="text" id="business-address" name="businessAddress" required>
+
+                <!-- GPS location fields -->
+                <div id="map"></div>
+                <label for="business-latitude">Business Latitude:</label>
+                <input type="text" id="business-latitude" name="businessLatitude" readonly>
+
+                <label for="business-longitude">Business Longitude:</label>
+                <input type="text" id="business-longitude" name="businessLongitude" readonly>
+
+                <button type="button" onclick="getLocation()">Get My Location</button>
+                <button type="submit">Submit Your Business</button>
+            </form>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or inquiries, feel free to reach out to us!</p>
+            <a href="mailto:puseletso55@gmail.com">Email Us</a>
+        </section>
+    </main>
+
+    <!-- Footer with GPS tracking info and copyright -->
+    <footer>
+        <p>GPS Geo-location tracking enabled for deliveries.</p>
+        <p>© 2024 Mafisa Tech Affiliate Pty Ltd. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize the map and set the location to Eyethu Mall, Orange Farm, Gauteng
+        function initMap() {
+            const eyethuMall = { lat: -26.4894, lng: 27.8662 };  // Eyethu Mall coordinates
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: eyethuMall
+            });
+            const marker = new google.maps.Marker({
+                position: eyethuMall,
+                map: map
+            });
+        }
+
+        // Get the user's current location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Display the user's coordinates in the form fields
+        function showPosition(position) {
+            document.getElementById('business-latitude').value = position.coords.latitude;
+            document.getElementById('business-longitude').value = position.coords.longitude;
+        }
+
+        // Function to open the chatbot for business search
+        function openChatbot() {
+            // Open the chatbot window (You can change the URL to your chatbot's URL)
+            window.open('https://hf.co/chat/assistant/65db9d5ca419782615ca3bdc');
+        }
+    </script>
+
+    <!-- Load Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcIGuykmzig6GhOHwOO3h7PlspyasKIic&callback=initMap" async defer></script>
+</body>
+</html>
+
+
+
+
+
