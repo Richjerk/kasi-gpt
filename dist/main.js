@@ -7,26 +7,26 @@ function sendMessage() {
     if (input.trim() !== "") {
         // Display user's message
         output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
-        
+
         // Simulate a delay for chatbot response
         output.innerHTML += `<p><strong>Chatbot:</strong> Searching for businesses...</p>`;
 
-        // Simulate chatbot interaction (replace this with actual chatbot API call)
-        setTimeout(() => {
-            const response = getChatbotResponse(input); // Mocking chatbot response
-            output.innerHTML += `<p><strong>Chatbot:</strong> ${response}</p>`;
-        }, 1000);
+        // Call Gemini AI to process the input (Replace with your API integration)
+        client.generateText({
+            model: 'models/chat-bison-001',
+            prompt: input,
+        })
+        .then(response => {
+            const chatbotReply = response.text;
+            output.innerHTML += `<p><strong>Chatbot:</strong> ${chatbotReply}</p>`;
+        })
+        .catch(err => {
+            output.innerHTML += `<p><strong>Chatbot:</strong> Sorry, I couldn't process your request.</p>`;
+        });
 
         // Clear the input field
         document.getElementById('chat-input').value = '';
     }
-}
-
-// Mock function to simulate chatbot response
-function getChatbotResponse(userInput) {
-    // Here, you would typically call your chatbot API
-    // For demonstration, we'll return a simple message
-    return `You asked about: "${userInput}". Here are some businesses that match your query.`;
 }
 
 // Function to get user's GPS location
@@ -69,4 +69,8 @@ document.getElementById('chat-input').addEventListener('keypress', function(even
         event.preventDefault(); // Prevents form submission if inside a form
     }
 });
+
+// Importing the Gemini AI client
+const { TextServiceClient } = require('@google/generative-ai');
+const client = new TextServiceClient();
 
