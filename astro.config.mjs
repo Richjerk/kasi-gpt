@@ -7,7 +7,7 @@ export default defineConfig({
   integrations: [
     preact(),
     sitemap({
-      canonicalURL: 'https://feature-tour.netlify.app'
+      canonicalURL: 'https://kasi-gpt-chatbot.netlify.app'
     })
   ],
 });
