@@ -2,7 +2,7 @@
 
 # Netlify Feature Tour
 
-**Access this demo site**: https://feature-tour.netlify.app
+**Access this demo site**: https://kasi-gpt-chatbot.netlify.app
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fad6792e-1c44-44db-bd79-ea74b42b0f89/deploy-status)](https://app.netlify.com/sites/feature-tour/deploys)
 
@@ -28,9 +28,8 @@ Deploy your own version of this example site by selecting the Deploy to Netlify 
 You can clone this example repo to explore its features and implementation and to run it locally.
 
 ```shell
-
 # 1. Clone the repository to your local development environment
-git clone git@github.com:netlify/feature-tour.git
+git clone https://github.com/Richjerk/kasi-gpt.git
 
 # 2. Move into the project directory
 cd feature-tour
@@ -43,5 +42,13 @@ npm install -g netlify-cli
 
 # 5. Serve your site using Netlify Dev
 netlify dev
+
+
+
+### Explanation:
+- The badge at the top (`netlify-badge-examples.png`) serves as a visual marker.
+- The deployment badge reflects the current status of the deployment from your Netlify project.
+- The instructions provide a way for others to deploy the example site and also guide them on how to set up and run the project locally.
+
 
 ```
