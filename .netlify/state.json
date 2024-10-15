@@ -1,0 +1,21 @@
+{
+	"siteId": "04d19d17-2a72-4c90-bb6d-ddfaeb908a33",
+	"geolocation": {
+		"data": {
+			"city": "Johannesburg",
+			"country": {
+				"code": "ZA",
+				"name": "South Africa"
+			},
+			"subdivision": {
+				"code": "GP",
+				"name": "Gauteng"
+			},
+			"timezone": "Africa/Johannesburg",
+			"latitude": -26.2309,
+			"longitude": 28.0583,
+			"postalCode": "2041"
+		},
+		"timestamp": 1728882604838
+	}
+}

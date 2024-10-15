@@ -1,0 +1,18 @@
+# This file specifies the funding options for the kasi-gpt project.
+
+funding:
+  github: 
+    - Richjerk  # Replace with your GitHub Sponsors-enabled username
+    - Richjerk  # Optionally add more usernames (up to 4)
+  patreon: your-patreon-username  # Replace with your Patreon username
+  open_collective:kasi-gpt 
+  tidelift: npm/paRichjerk  
+  community_bridge: kasi-gpt 
+  liberapay: Richjerk  
+  issuehunt: Richjerk 
+  polar: Richjerk
+  buy_me_a_coffee: Richjerk
+  thanks_dev: Richjerk
+  custom: 
+    -  https://github.com/sponsors/Richjerk
+
