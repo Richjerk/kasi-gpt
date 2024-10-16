@@ -1,11 +1,25 @@
 {
-    "name": "Netlify Tour",
-    "short_name": "Netlify Tour",
+    "name": "Township Business Directory",
+    "short_name": "Biz Directory",
+    "description": "Connecting local township businesses with their community through AI-driven product and service listings.",
     "icons": [
-      { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
-      { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+        {
+            "src": "/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
     ],
-    "theme_color": "#ffffff",
+    "theme_color": "#4CAF50",  // Green for a business-like feel
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/",
+    "orientation": "portrait-primary",
+    "lang": "en-ZA"
 }
+
