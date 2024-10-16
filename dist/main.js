@@ -1,27 +1,50 @@
+// Importing the Gemini AI client (only in your backend/server-side code)
+// const { TextServiceClient } = require('@google/generative-ai');
+// const client = new TextServiceClient();
+
 // Function to send messages to the chatbot
 function sendMessage() {
-    const input = document.getElementById('chat-input').value;
+    const input = document.getElementById('chat-input').value.trim();
     const output = document.getElementById('chat-output');
 
-    // Check if input is not empty
-    if (input.trim() !== "") {
-        // Display user's message
-        output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+    // Check if the input is not empty
+    if (input !== "") {
+        // Display the user's message
+        const userMessage = document.createElement('p');
+        userMessage.innerHTML = `<strong>You:</strong> ${input}`;
+        output.appendChild(userMessage);
 
-        // Simulate a delay for chatbot response
-        output.innerHTML += `<p><strong>Chatbot:</strong> Searching for businesses...</p>`;
+        // Simulate a loading message while waiting for chatbot response
+        const loadingMessage = document.createElement('p');
+        loadingMessage.innerHTML = `<strong>Chatbot:</strong> Searching for businesses...`;
+        output.appendChild(loadingMessage);
 
-        // Call Gemini AI to process the input (Replace with your API integration)
-        client.generateText({
-            model: 'models/chat-bison-001',
-            prompt: input,
+        // Call the backend API to interact with Gemini AI
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: input })
         })
-        .then(response => {
-            const chatbotReply = response.text;
-            output.innerHTML += `<p><strong>Chatbot:</strong> ${chatbotReply}</p>`;
+        .then(response => response.json())
+        .then(data => {
+            // Remove the loading message
+            output.removeChild(loadingMessage);
+
+            // Display the chatbot's response
+            const chatbotReply = document.createElement('p');
+            chatbotReply.innerHTML = `<strong>Chatbot:</strong> ${data.response}`;
+            output.appendChild(chatbotReply);
         })
         .catch(err => {
-            output.innerHTML += `<p><strong>Chatbot:</strong> Sorry, I couldn't process your request.</p>`;
+            // Remove the loading message
+            output.removeChild(loadingMessage);
+
+            // Handle error response
+            const errorMessage = document.createElement('p');
+            errorMessage.innerHTML = `<strong>Chatbot:</strong> Sorry, I couldn't process your request.`;
+            output.appendChild(errorMessage);
         });
 
         // Clear the input field
@@ -69,8 +92,4 @@ document.getElementById('chat-input').addEventListener('keypress', function(even
         event.preventDefault(); // Prevents form submission if inside a form
     }
 });
-
-// Importing the Gemini AI client
-const { TextServiceClient } = require('@google/generative-ai');
-const client = new TextServiceClient();
 
