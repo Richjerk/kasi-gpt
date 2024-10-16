@@ -1,55 +1,32 @@
-// Importing the Gemini AI client (only in your backend/server-side code)
-// const { TextServiceClient } = require('@google/generative-ai');
-// const client = new TextServiceClient();
-
 // Function to send messages to the chatbot
 function sendMessage() {
-    const input = document.getElementById('chat-input').value.trim();
+    const input = document.getElementById('chat-input').value;
     const output = document.getElementById('chat-output');
 
-    // Check if the input is not empty
-    if (input !== "") {
-        // Display the user's message
-        const userMessage = document.createElement('p');
-        userMessage.innerHTML = `<strong>You:</strong> ${input}`;
-        output.appendChild(userMessage);
+    // Check if input is not empty
+    if (input.trim() !== "") {
+        // Display user's message
+        output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+        
+        // Simulate a delay for chatbot response
+        output.innerHTML += `<p><strong>Chatbot:</strong> Searching for businesses...</p>`;
 
-        // Simulate a loading message while waiting for chatbot response
-        const loadingMessage = document.createElement('p');
-        loadingMessage.innerHTML = `<strong>Chatbot:</strong> Searching for businesses...`;
-        output.appendChild(loadingMessage);
-
-        // Call the backend API to interact with Gemini AI
-        fetch('/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: input })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Remove the loading message
-            output.removeChild(loadingMessage);
-
-            // Display the chatbot's response
-            const chatbotReply = document.createElement('p');
-            chatbotReply.innerHTML = `<strong>Chatbot:</strong> ${data.response}`;
-            output.appendChild(chatbotReply);
-        })
-        .catch(err => {
-            // Remove the loading message
-            output.removeChild(loadingMessage);
-
-            // Handle error response
-            const errorMessage = document.createElement('p');
-            errorMessage.innerHTML = `<strong>Chatbot:</strong> Sorry, I couldn't process your request.`;
-            output.appendChild(errorMessage);
-        });
+        // Simulate chatbot interaction (replace this with actual chatbot API call)
+        setTimeout(() => {
+            const response = getChatbotResponse(input); // Mocking chatbot response
+            output.innerHTML += `<p><strong>Chatbot:</strong> ${response}</p>`;
+        }, 1000);
 
         // Clear the input field
         document.getElementById('chat-input').value = '';
     }
+}
+
+// Mock function to simulate chatbot response
+function getChatbotResponse(userInput) {
+    // Here, you would typically call your chatbot API
+    // For demonstration, we'll return a simple message
+    return `You asked about: "${userInput}". Here are some businesses that match your query.`;
 }
 
 // Function to get user's GPS location

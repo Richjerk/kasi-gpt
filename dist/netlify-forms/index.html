@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,117 +19,37 @@
   <title>Netlify Forms</title>
 
   <link rel="stylesheet" href="/global.css">
-  <link rel="stylesheet" href="/_astro/deploy-previews.a114a8c3.css" />
-  <link rel="stylesheet" href="/_astro/netlify-forms.bed296df.css" />
-
-  <!-- Add custom CSS styles here -->
-  <style>
-    body {
-      font-family: 'Mulish', sans-serif; /* Ensure you have the correct font-family */
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9; /* Light background for better contrast */
-      color: #333; /* Dark text for readability */
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .heading {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #007BFF; /* Use your brand color */
-    }
-
-    .description {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px; /* Add space between form elements */
-    }
-
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input, textarea {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1em;
-      width: 100%;
-      box-sizing: border-box; /* Ensure padding is included in width */
-    }
-
-    button {
-      background-color: #007BFF; /* Primary color */
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #0056b3; /* Darker shade for hover */
-    }
-
-    .footer {
-      margin-top: 20px;
-      padding: 20px 0;
-      text-align: center;
-      background-color: #333; /* Footer background color */
-      color: white; /* Footer text color */
-    }
-
-    .footer-link {
-      color: #fff;
-      text-decoration: none; /* No underline */
-      margin: 0 10px;
-    }
-
-    .footer-link:hover {
-      text-decoration: underline; /* Underline on hover */
-    }
-  </style>
-</head>
+  
+<link rel="stylesheet" href="/_astro/deploy-previews.a114a8c3.css" />
+<link rel="stylesheet" href="/_astro/netlify-forms.bed296df.css" /></head>
 <body>
   <header class="container">
     <h1 class="heading">Netlify Forms</h1>
+
     <p class="description">Turn any HTML form into a functional form that can receive submissions with a single line of code.</p>
+
     <p>
-      <a href="/">&larr; back to home</a>
-    </p>
+        <a href="/">&larr; back to home</a>
+      </p>
   </header>
 
   <main class="astro-IDOENERS">
     <h2 class="heading astro-IDOENERS">Make this form functional</h2>
 
     <form class="form astro-IDOENERS" method="POST" name="contact" action="/success">
-      <label for="name" class="astro-IDOENERS">Name</label>
-      <input type="text" id="name" name="name" class="astro-IDOENERS" required>
+      <label htmlFor="name" class="astro-IDOENERS">Name</label>
+      <input type="text" id="name" name="name" class="astro-IDOENERS">
 
-      <label for="email" class="astro-IDOENERS">Email</label>
-      <input type="email" id="email" name="email" class="astro-IDOENERS" required>
+      <label htmlFor="email" class="astro-IDOENERS">Email</label>
+      <input type="email" id="email" name="email" class="astro-IDOENERS">
 
-      <label for="message" class="astro-IDOENERS">Message</label>
-      <textarea name="message" id="message" class="astro-IDOENERS" required></textarea>
+      <label htmlFor="message" class="astro-IDOENERS">Message</label>
+      <textarea name="message" class="astro-IDOENERS"></textarea>
 
       <button type="submit" class="button astro-IDOENERS">
         Send
       </button>
     </form>
-    
     <p class="docs astro-IDOENERS">
       <a href="https://docs.netlify.com/forms/setup/" class="astro-IDOENERS">
         Learn about Netlify Forms in the docs.
@@ -156,5 +78,5 @@
       </ul>
     </nav>
   </footer>
-</body>
-</html>
+
+</body></html>

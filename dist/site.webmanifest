@@ -1,25 +1,11 @@
 {
-  "name": "Kasi GPT Chatbot",
-  "short_name": "Kasi GPT",
-  "icons": [
-    {
-      "src": "/icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "theme_color": "#4A90E2",  // Change to a color that fits your branding
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "start_url": "/",
-  "description": "Empowering township businesses with an AI-driven chatbot.",
-  "dir": "ltr",
-  "lang": "en-US"
+    "name": "Netlify Tour",
+    "short_name": "Netlify Tour",
+    "icons": [
+      { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+      { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
 }
-
-
