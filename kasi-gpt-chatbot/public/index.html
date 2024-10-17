@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Township Small Business Directory</title>
+    <meta name="description" content="Discover local businesses in the township community. List your business, find services, and connect with your community.">
+    <meta name="keywords" content="Township, Small Business, Directory, Local Businesses, Community, Services">
+    <meta name="author" content="Mafisa Tech Affiliate Pty Ltd">
+    <link rel="canonical" href="https://township-business-listing.netlify.app">
+
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #loading {
+            margin-top: 5px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="space-y-4">
+        <h1 class="text-2xl font-bold">List Your Business</h1>
+        <form id="business-form" class="flex flex-col space-y-4" aria-labelledby="business-form">
+            <input type="text" id="business-name" placeholder="Business Name" required class="border border-gray-300 p-2 rounded" aria-label="Business Name">
+            <textarea id="business-description" placeholder="Business Description" required class="border border-gray-300 p-2 rounded" aria-label="Business Description"></textarea>
+            <input type="email" id="business-email" placeholder="Business Email" required class="border border-gray-300 p-2 rounded" aria-label="Business Email">
+            <input type="tel" id="business-phone" placeholder="Business Phone" required class="border border-gray-300 p-2 rounded" aria-label="Business Phone">
+            <input type="text" id="business-address" placeholder="Business Address" required class="border border-gray-300 p-2 rounded mb-4" aria-label="Business Address">
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-700">Submit</button>
+        </form>
+
+        <div>
+            <input id="search" type="text" placeholder="Search for businesses..." oninput="searchBusinesses()" class="border border-gray-300 p-2 w-full rounded mb-4" aria-label="Search for businesses" />
+        </div>
+
+        <!-- Chatbot Section -->
+        <div id="chat-container" class="mt-4">
+            <div id="chat-log" class="max-h-60 overflow-y-auto bg-gray-100 p-2 rounded mb-4" aria-live="polite"></div>
+            <input
+                id="chat-input"
+                type="text"
+                placeholder="Type your message..."
+                class="border border-gray-300 p-2 w-full rounded mb-2"
+                onkeydown="if (event.key === 'Enter') sendMessage()"
+                aria-label="Type your message"
+            />
+            <button id="send-button" class="bg-yellow-500 text-white p-2 rounded mt-2 hover:bg-yellow-600" onclick="sendMessage()">Send</button>
+            <div id="loading" class="hidden" aria-live="polite">Loading...</div>
+
+            <!-- Quick Replies Section -->
+            <div id="quick-replies" class="flex flex-wrap mt-2 gap-2">
+                <button class="bg-gray-300 p-2 rounded hover:bg-gray-400" onclick="sendQuickReply('What services do you offer?')">Services</button>
+                <button class="bg-gray-300 p-2 rounded hover:bg-gray-400" onclick="sendQuickReply('How to contact you?')">Contact</button>
+                <button class="bg-gray-300 p-2 rounded hover:bg-gray-400" onclick="sendQuickReply('Location')">Location</button>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div id="registration-form" class="hidden mt-4 p-4 bg-gray-50 rounded" aria-labelledby="registration-form">
+            <h2 class="text-xl font-bold">Register Your Business</h2>
+            <form id="user-registration" class="space-y-4">
+                <input id="user-email" type="email" placeholder="Email" class="border border-gray-300 p-2 w-full rounded" required aria-label="Email" />
+                <input id="user-password" type="password" placeholder="Password" class="border border-gray-300 p-2 w-full rounded" required aria-label="Password" />
+                <button type="submit" class="bg-green-500 text-white p-2 rounded hover:bg-green-600">Register</button>
+            </form>
+        </div>
+
+        <!-- Dashboard for Business Listings -->
+        <div id="dashboard" class="hidden mt-4">
+            <h2 class="text-xl font-bold">Your Business Listings</h2>
+            <ul id="business-list" class="space-y-2">
+                <!-- Populate with fetched business listings -->
+            </ul>
+        </div>
+
+        <!-- Review Form -->
+        <div id="review-form" class="hidden mt-4">
+            <h3 class="text-lg font-semibold">Leave a Review</h3>
+            <input id="review-text" type="text" placeholder="Your review" class="border border-gray-300 p-2 w-full rounded" aria-label="Your review" />
+            <input id="business-id" type="hidden" value="BUSINESS_ID" /> <!-- Set this dynamically -->
+            <button onclick="submitReview()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Submit</button>
+        </div>
+    </div>
+
+    <script src="form-validation.js"></script>
+    <script>
+        const chatLog = document.getElementById('chat-log');
+        const chatInput = document.getElementById('chat-input');
+        const loadingIndicator = document.getElementById('loading');
+
+        // Handle business form submission
+        document.getElementById('business-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            // API call to submit the form data
+            fetch('/api/businesses', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Business listed successfully!');
+                this.reset();
+                loadBusinessListings(); // Refresh the business listings
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('There was an error listing your business.');
+            });
+        });
+
+        function sendMessage() {
+            const message = chatInput.value;
+            if (message) {
+                chatLog.innerHTML += `<div>User: ${message}</div>`;
+                chatInput.value = '';
+
+                loadingIndicator.classList.remove('hidden');
+
+                // Replace this URL with your chatbot API endpoint
+                fetch('YOUR_CHATBOT_API_URL', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botResponse = `Bot: ${data.response}`;
+                    chatLog.innerHTML += `<div>${botResponse}</div>`;
+                    loadingIndicator.classList.add('hidden');
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    chatLog.innerHTML += `<div>Bot: Sorry, there was an error processing your request.</div>`;
+                    loadingIndicator.classList.add('hidden');
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                });
+            }
+        }
+
+        function sendQuickReply(reply) {
+            chatInput.value = reply;
+            sendMessage();
+        }
+
+        // User Registration
+        document.getElementById('user-registration').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('user-email').value;
+            const password = document.getElementById('user-password').value;
+
+            // API call to register the user
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration successful! You can now log in.');
+                } else {
+                    alert('Registration failed: ' + data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('There was an error during registration.');
+            });
+        });
+
+        // Load Business Listings
+        function loadBusinessListings() {
+            fetch('/api/businesses')
+            .then(response => response.json())
+            .then(data => {
+                const businessList = document.getElementById('business-list');
+                businessList.innerHTML = '';
+                data.forEach(business => {
+                    businessList.innerHTML += `<li>${business.name} - ${business.description}</li>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching business listings:', error);
+            });
+        }
+
+        // Call loadBusinessListings on page load
+        window.onload = loadBusinessListings;
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

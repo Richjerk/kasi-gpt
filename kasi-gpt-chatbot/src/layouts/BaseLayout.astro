@@ -1,0 +1,28 @@
+---
+// src/layouts/BaseLayout.astro
+const { title, children } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="stylesheet" href="/path/to/your/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Township Small Business Chatbot</h1>
+    <!-- Add navigation or other header components here -->
+  </header>
+
+  <main>
+    {children}
+  </main>
+
+  <footer>
+    <p>© 2024 Mafisa Tech Affiliate Pty Ltd</p>
+  </footer>
+</body>
+</html>
